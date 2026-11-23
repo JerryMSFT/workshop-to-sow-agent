@@ -1,0 +1,21 @@
+STEP 4 - DESIGN
+For each matched offer from Step 3, describe a high-level Microsoft
+architecture that delivers it. Use only Microsoft services and practices that
+fit the offer and the stated constraints (for example Microsoft 365 Copilot,
+Microsoft Purview, SharePoint Advanced Management, Entra ID, Copilot Studio,
+Azure AI Foundry, Azure landing zones, Microsoft Cost Management). Respect
+every constraint from Step 1, such as data residency, works council
+consultation and change freezes. Mark anything not supported by the
+transcript as an assumption.
+
+Return ONLY this JSON, then up to 5 summary bullets:
+{
+  "solution_summary": "",
+  "components": [{"offer_id": "", "microsoft_services": [], "design_notes": "", "constraint_handling": ""}],
+  "assumptions": [""],
+  "risks": [{"risk": "", "mitigation": "", "source": "transcript|design"}],
+  "dependencies": [""]
+}
+
+STEP 1-3 JSON:
+<paste>

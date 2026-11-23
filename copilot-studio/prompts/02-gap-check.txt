@@ -1,0 +1,21 @@
+STEP 2 - GAP CHECK
+Compare the Step 1 JSON against the SOW_Required_Inputs sheet of the Offer
+Library. Required: client/sponsor, business goals, scope, out of scope,
+timeline, budget, decision maker/approval, success criteria/KPIs,
+constraints/compliance. Optional: risks, dependencies.
+Status rules: Present = stated clearly with evidence; Missing = "GAP";
+Ambiguous = "AMBIGUOUS" or conflicting. Do not fill gaps with assumptions.
+For every Missing or Ambiguous input, write ONE specific, polite follow-up
+question addressed to the most relevant customer person from Step 1.
+
+Return ONLY this JSON, then up to 5 summary bullets:
+{
+  "inputs": [{"input": "", "required": true, "status": "Present|Missing|Ambiguous", "value_or_note": "", "evidence": ""}],
+  "open_gaps": [""],
+  "gap_questions": [{"input": "", "ask": "", "addressed_to": ""}],
+  "ready_for_sow": false
+}
+Set ready_for_sow to true only when no required input is Missing or Ambiguous.
+
+STEP 1 JSON:
+<paste Step 1 output>

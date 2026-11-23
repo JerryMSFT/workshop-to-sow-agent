@@ -1,0 +1,287 @@
+Synthetic demo transcript – fictional companies and people. Created for
+the Hack to Build Workshop-to-SOW Agent proof of concept.
+
+Meeting title: Northwind x Contoso – Cloud Discovery Call
+
+Date: November 19, 2026
+
+Duration: 44m 37s
+
+Participants:
+
+- Priya Desai – Principal Architect, Contoso Consulting
+
+- Sam Patel – IT Infrastructure Manager, Northwind Traders
+
+- Lena Novak – Senior Systems Engineer, Northwind Traders
+
+Transcript
+
+[00:00:15] Priya Desai: Hi Sam, can you hear me?
+
+[00:00:29] Sam Patel: Yeah, hi Priya. Sorry I'm a couple minutes late,
+it's back-to-back today.
+
+[00:00:59] Priya Desai: No worries at all. Is Lena joining us?
+
+[00:01:14] Sam Patel: She should be. She's probably finishing something
+on the warehouse side. Let's just start, she'll catch up.
+
+[00:01:43] Priya Desai: Sounds good. So I've got us for about forty-five
+minutes. The idea today is mostly for me to understand what's going on
+and where Contoso might be able to help. Can you give me the big
+picture?
+
+[00:02:42] Sam Patel: Yeah. So, Northwind Traders, we're a regional food
+and beverage distributor. We move product from suppliers to grocery
+stores, restaurants, convenience stores, mostly around the Midwest.
+IT-wise, we run most of our stuff out of a colocation data center, and
+the lease on that is ending sometime next year. So that's kind of the,
+uh, the forcing function.
+
+[00:04:44] Priya Desai: Okay. Sometime next year. Do you know the exact
+date?
+
+[00:05:04] Sam Patel: Uh... honestly, not off the top of my head. I'll
+have to check the contract. I think it's, like, mid-year? Maybe later.
+There might be a renewal option in there too, I'm not sure.
+
+[00:06:03] Priya Desai: Okay, no problem. What's running in the colo
+today?
+
+[00:06:22] Sam Patel: About a hundred and eighty VMs on VMware. A few
+SQL Servers, I want to say four or five. And then our warehouse
+management system, which is the big one. That's what runs the
+warehouses. If that goes down, trucks don't leave.
+
+[00:07:41] Priya Desai: Got it. Is the warehouse app something off the
+shelf, or custom?
+
+[00:08:00] Sam Patel: It's a commercial package, but it's been
+customized a lot. Lena knows it way better than me.
+
+[00:08:30] Lena Novak: Hey, sorry, sorry, I'm here. Hi, everyone.
+
+[00:08:44] Sam Patel: Speak of the devil.
+
+[00:08:54] Lena Novak: Did I miss anything good?
+
+[00:09:04] Priya Desai: Hi Lena, I'm Priya from Contoso. Sam was just
+giving me the overview. Good timing, actually, we were just getting to
+the warehouse management app.
+
+[00:09:48] Lena Novak: Oh, the WMS. (laughs) Yeah, that's my baby. It's
+a packaged product, but we've got a ton of customizations on it and some
+integrations to the handheld scanners in the warehouses. It runs on two
+app servers and one of the SQL Servers.
+
+[00:11:06] Priya Desai: Okay. And that's on VMware too?
+
+[00:11:16] Lena Novak: Yeah, everything is. Well, except what's in
+Azure.
+
+[00:11:36] Priya Desai: Right, Sam mentioned you have some Azure. Tell
+me about that.
+
+[00:11:51] Sam Patel: So that's the other half of the problem. We've had
+stuff in Azure for, what, three years?
+
+[00:12:15] Lena Novak: About that.
+
+[00:12:20] Sam Patel: And it just kind of... grew. Different teams spun
+things up. The e-commerce team has stuff, the BI folks have stuff,
+someone did a proof of concept that I'm pretty sure is still running.
+There was never really a plan, or anyone keeping an eye on it.
+
+[00:13:33] Priya Desai: Is there a landing zone? Like a structure for
+subscriptions, networking, policies—
+
+[00:13:53] Lena Novak: No. I mean—
+
+[00:13:58] Sam Patel: There are subscriptions.
+
+[00:14:03] Lena Novak: There are subscriptions. Several. I'm not sure
+anyone could tell you why there are four of them.
+
+[00:14:32] Sam Patel: And the bill doubled this year. Literally doubled.
+And nobody can explain it. Finance keeps asking me and I keep saying
+"we're looking into it."
+
+[00:15:21] Priya Desai: Ouch. Do you have tagging in place? Cost centers
+on resources, anything like that?
+
+[00:15:46] Lena Novak: No tagging. None.
+
+[00:15:56] Priya Desai: Reservations, savings plans?
+
+[00:16:05] Sam Patel: No. Nobody's bought anything like that. It's all
+pay-as-you-go.
+
+[00:16:25] Priya Desai: Okay. So it sounds like two goals. One, get out
+of the data center before the lease ends, and two, get control of the
+Azure costs. Is that fair?
+
+[00:17:14] Sam Patel: Yeah, that's exactly it. Get out of the data
+center, and get a handle on Azure before it gets worse.
+
+[00:17:43] Priya Desai: Okay. So, to size anything, I need to understand
+a few things. Is there a budget set aside for this, for the migration
+and the cost work?
+
+[00:18:27] Sam Patel: Uh... we'd have to talk to finance. There's no,
+like, line item yet. I think once we know roughly what it looks like,
+we'd go ask.
+
+[00:19:12] Lena Novak: Can I say something on that, actually? Because
+the VMware renewal is coming up too, and the new licensing is way more
+than what we paid before. So if we stay in the colo even six months
+longer, we're paying for that, and—
+
+[00:20:15] Sam Patel: Right, the licensing thing.
+
+[00:20:25] Lena Novak: Yeah. It's insane. Our rep basically told us the
+bundle is the only option now.
+
+[00:20:50] Priya Desai: Yeah, we're hearing that a lot right now. When's
+the VMware renewal?
+
+[00:21:09] Lena Novak: I think spring? I'd have to look. Sam, do you
+know?
+
+[00:21:24] Sam Patel: No idea, procurement has that.
+
+[00:21:39] Priya Desai: Okay, we can come back to it. And just so I know
+who I'm working with on the decision side, who would approve a project
+like this?
+
+[00:22:18] Sam Patel: Well, I'd own it day to day. My boss would
+probably weigh in. Maybe the COO, since the warehouses are his. It kind
+of depends on the size, I think.
+
+[00:23:07] Priya Desai: Okay, and is there a formal approval process,
+like a steering committee, or—
+
+[00:23:26] Sam Patel: Sorry, Priya, you cut out there. Can you say that
+again?
+
+[00:23:51] Priya Desai: Can you hear me now?
+
+[00:24:01] Sam Patel: Yeah, you're back. Sorry, the Wi-Fi in this room
+is terrible.
+
+[00:24:20] Lena Novak: It's always this room.
+
+[00:24:30] Sam Patel: It's always this room. Anyway, sorry, where were
+we?
+
+[00:24:50] Priya Desai: I was asking about... actually, let me ask about
+the Azure side first while I'm thinking of it. When the bill doubled,
+was that a gradual climb, or did it jump at some point?
+
+[00:25:39] Lena Novak: It jumped around, I want to say, March? My theory
+is the data science team. They spun up some GPU VMs for a demand
+forecasting thing, and I don't think anyone ever turned them off.
+
+[00:26:38] Sam Patel: We don't know that for sure.
+
+[00:26:47] Lena Novak: We don't know anything for sure, that's kind of
+the problem. (laughs)
+
+[00:27:02] Priya Desai: That's actually really common. Without tags you
+can't attribute anything, so everyone has a theory. The first step is
+usually just getting visibility. Tagging, cost allocation, finding
+what's idle, right-sizing, and then looking at reservations for the
+stuff that runs steady. It's usually a pretty quick win.
+
+[00:28:35] Sam Patel: That would make finance very happy.
+
+[00:28:50] Priya Desai: And on the migration side, I'd usually want to
+start with a proper foundation in Azure, a landing zone, so the new
+workloads don't land in the same mess. Then move things over in waves,
+starting with lower-risk stuff and working up to the WMS.
+
+[00:30:08] Lena Novak: Yeah, I'd want the WMS last. Or, well, not last,
+but definitely not first. We had an outage in, when was it, August?
+
+[00:30:43] Sam Patel: July.
+
+[00:30:47] Lena Novak: July. Scanners stopped talking to the app for
+like four hours. Trucks backed up around the block. The ops guys still
+bring it up.
+
+[00:31:27] Priya Desai: Oof. Yeah, so we'd plan carefully around the
+warehouse peaks. Are there busy seasons where you can't touch anything?
+
+[00:32:01] Sam Patel: Holidays are big, Thanksgiving through New Year.
+Summer is busy for beverage. Honestly it's always kind of busy.
+
+[00:32:35] Lena Novak: There's never a good time. (laughs)
+
+[00:32:45] Priya Desai: (laughs) There never is. Okay, let me ask a
+different kind of question. If we fast-forward a year and this went
+really well, what would that look like for you? How would you know it
+was a success?
+
+[00:33:44] Sam Patel: Well, we'd be out of the colo, obviously. And,
+um...
+
+[00:34:03] Lena Novak: Oh, before I forget, Sam, did you tell her about
+the backup thing? Because if we move stuff we have to figure out
+backups. Right now it all goes to a backup appliance in the colo, and
+that box is ancient.
+
+[00:34:57] Sam Patel: Oh yeah, good point. Backup is a whole thing.
+
+[00:35:17] Priya Desai: Okay, noted. So backup and DR would need to be
+part of the design. Do you have any DR today?
+
+[00:35:46] Lena Novak: Not really. We have backups. We've never tested a
+restore of the whole WMS. Like, ever.
+
+[00:36:21] Sam Patel: Please don't put that in writing. (laughs)
+
+[00:36:35] Priya Desai: (laughs) It stays between us. But that's
+important, we'd want to look at it. Okay, so... how many people on your
+side would be available to work on this?
+
+[00:37:19] Sam Patel: It's basically me and Lena, plus one more guy on
+the infrastructure team, Raj, who's mostly on network stuff.
+
+[00:38:04] Lena Novak: And the WMS vendor, if we need them. They charge
+for everything, though.
+
+[00:38:28] Priya Desai: Good to know. Any compliance requirements? Food
+safety, audits, anything that affects where data can live?
+
+[00:39:02] Sam Patel: There's some traceability stuff for food safety,
+lot tracking, recalls. That's all in the WMS. I don't think there's
+anything about where it lives, as long as it's in the US. But I'd want
+to check with our compliance person.
+
+[00:40:11] Priya Desai: Okay. And going back to what I asked before,
+about the lease date and who signs off—
+
+[00:40:40] Sam Patel: Oh, shoot. Sorry, Priya, I just got a ping. I've
+got a meeting with the COO in two minutes about, uh, something
+unrelated, and I can't be late for that one.
+
+[00:41:24] Priya Desai: No, of course. Let's wrap up, then.
+
+[00:41:39] Sam Patel: Sorry, I know we didn't get to everything.
+
+[00:41:54] Priya Desai: That's okay. Really quickly, on my side I'll put
+together some thoughts on how we'd approach the migration and the Azure
+cost piece. It would really help if you could send me the VM inventory
+and anything you have on the Azure bill, even just the last few
+invoices.
+
+[00:43:07] Lena Novak: I can export the VM list from vCenter.
+
+[00:43:22] Sam Patel: And I'll... yeah, I'll look at the contract and,
+uh, the other stuff. Let's do a follow-up. Can you send some times?
+
+[00:43:56] Priya Desai: Will do. Thanks, both of you.
+
+[00:44:11] Lena Novak: Thanks, Priya! Bye.
+
+[00:44:16] Sam Patel: Thanks, bye. Sorry again—

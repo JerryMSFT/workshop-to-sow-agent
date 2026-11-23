@@ -1,0 +1,12 @@
+Synthetic demo data – fictional partner. Not real pricing.,
+Topic,Details
+Purpose,"Offer library for Contoso Consulting (a fictional Microsoft partner), used by the Workshop-to-SOW Agent proof of concept (Microsoft hackathon, by Jerry Rhoads). The agent reads this workbook to match customer needs heard in a workshop transcript to the partner's offers, then drafts a Statement of Work (SOW)."
+How the agent works,"1) Read the workshop transcript. 2) Match what the customer says to the Ideal Customer Signals in Offers. 3) Price the matched offers from Offer_Roles and Rate_Card. 4) Check the transcript against SOW_Required_Inputs and list any gaps. 5) Draft the SOW, or a follow-up email asking for the missing inputs."
+Sheet: Offers (tblOffers),"What can be sold. One row per offer: problem it solves, listening signals, deliverables, phases, duration, prerequisites, assumptions, exclusions, Microsoft technologies and pricing model. Total Hours and Estimated Price USD are live formulas summed from Offer_Roles."
+Sheet: Offer_Roles (tblOfferRoles),"Effort by role, used to compute price. One row per offer and role with hours; Rate is looked up from Rate_Card and Cost = Hours x Rate."
+Sheet: Rate_Card (tblRates),Hourly rate (USD) for each delivery role. Changing a rate reprices every offer automatically.
+Sheet: SOW_Required_Inputs (tblSowInputs),"Checklist for the gap check. Each input states why it matters, whether it is required, and an example question the agent can put in a follow-up email."
+Sheet: Demo_Expected_Matches (tblDemoKey),"Answer key for the two demo transcripts (Transcript A – Complete, Transcript B – Gaps): the offers and gaps the agent is expected to find."
+Pricing logic,Estimated Price USD = sum of (Hours x Hourly Rate) across the offer's roles. OFF-07 is a monthly subscription: its duration (4 weeks) and price are per month.
+Replace with your own data,"A real partner keeps the sheet names, table names and column headers, then: 1) Replace the Rate_Card roles and rates. 2) Replace the Offers rows with its own offers and listening signals. 3) Rebuild Offer_Roles hours for each offer (role names must match Rate_Card exactly). 4) Align SOW_Required_Inputs with its own SOW template. 5) Replace Demo_Expected_Matches with its own test transcripts, or delete the rows."
+Conventions,"Currency is USD. One header row per table and no merged cells inside tables, so the agent can read them reliably. Offer IDs are unique and must match between Offers and Offer_Roles."

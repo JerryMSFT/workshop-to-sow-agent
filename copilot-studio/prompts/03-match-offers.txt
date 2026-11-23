@@ -1,0 +1,28 @@
+STEP 3 - MATCH OFFERS
+Match the goals, scope and constraints from Step 1 to offers in the Offers and
+Offer_Roles sheets of the Offer Library. Use library prices exactly; never
+discount or change them. Monthly offers go in "optional_recurring" and are not
+added to the one-time total. Compare the total with the stated budget and any
+approval threshold. If the total exceeds the budget or a threshold, set the
+flag and propose a phasing option that keeps Phase 1 under the threshold,
+with the trade-off stated. If the budget is GAP, set budget_flag to
+"BUDGET UNKNOWN" and do not guess.
+
+Return ONLY this JSON, then up to 5 summary bullets:
+{
+  "matched_offers": [{"offer_id": "", "offer_name": "", "price": 0, "rationale": "", "evidence": "",
+                      "roles": [{"role": "", "rate": 0, "hours": 0, "amount": 0}]}],
+  "optional_recurring": [{"offer_id": "", "offer_name": "", "monthly_price": 0, "rationale": ""}],
+  "one_time_total": 0,
+  "arithmetic": "",
+  "client_budget": "",
+  "budget_comparison": "",
+  "budget_flag": "WITHIN BUDGET|OVER BUDGET|OVER APPROVAL THRESHOLD|BUDGET UNKNOWN",
+  "phasing_suggestion": [{"phase": 1, "offer_ids": [], "subtotal": 0, "note": ""}],
+  "not_matched_needs": [""]
+}
+
+STEP 1 JSON:
+<paste>
+STEP 2 JSON:
+<paste>

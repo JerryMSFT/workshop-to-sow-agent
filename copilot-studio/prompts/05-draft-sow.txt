@@ -1,0 +1,40 @@
+STEP 5 - DRAFT SOW
+Map Steps 1 to 4 onto the placeholder tokens of
+"Contoso Consulting - SOW Template and Follow-up Email.docx".
+Rules: every value must come from earlier steps. Unknown values are "GAP".
+Fill OFFER_ID_n and ROLE_n/RATE_n/HOURS_n/AMOUNT_n in order starting at 1; set
+unused slots to "". Amounts are numbers formatted as text like "$43,000".
+GAP_QUESTIONS is a numbered plain-text list, one question per line.
+
+Return ONLY this JSON (keys exactly as shown), then up to 3 summary bullets:
+{
+  "CLIENT_NAME": "",
+  "CLIENT_SPONSOR": "",
+  "DECISION_MAKER": "",
+  "BUSINESS_GOALS": "",
+  "SCOPE": "",
+  "OUT_OF_SCOPE": "",
+  "OFFER_ID_1": "", "OFFER_NAME_1": "", "OFFER_PRICE_1": "",
+  "OFFER_ID_2": "", "OFFER_NAME_2": "", "OFFER_PRICE_2": "",
+  "OFFER_ID_3": "", "OFFER_NAME_3": "", "OFFER_PRICE_3": "",
+  "OFFER_ID_4": "", "OFFER_NAME_4": "", "OFFER_PRICE_4": "",
+  "ROLE_1": "", "RATE_1": "", "HOURS_1": "", "AMOUNT_1": "",
+  "ROLE_2": "", "RATE_2": "", "HOURS_2": "", "AMOUNT_2": "",
+  "TOTAL_FEES": "",
+  "START_DATE": "",
+  "TIMELINE": "",
+  "SUCCESS_CRITERIA": "",
+  "CONSTRAINTS": "",
+  "ARCHITECTURE_SUMMARY": "",
+  "ASSUMPTIONS": "",
+  "CLIENT_BUDGET": "",
+  "BUDGET_FLAG": "",
+  "OPEN_GAPS": "",
+  "GAP_QUESTIONS": ""
+}
+Add ROLE_n slots for every role line from Step 3. Use only token names that
+exist in the template; if the template has fewer slots than needed, list the
+overflow in ASSUMPTIONS.
+
+STEP 1-4 JSON:
+<paste>
