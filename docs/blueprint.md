@@ -8,7 +8,7 @@ Microsoft partners run discovery workshops to scope AI, security, data and Azure
 # 1. Overview
 The solution has two parts:
 - Before / during the workshop – a structured Workshop Template with discovery questions per solution area (AI and agents, security, data, Azure migration) so the conversation captures what a SOW needs: business goals, current state, scope, constraints, timeline, budget range, decision makers and success criteria. The workshop runs normally in Microsoft Teams with transcription on.
-- After the workshop – an AI agent built on Azure AI Foundry Agent Service (or Copilot Studio) with Azure OpenAI runs five steps: (1) Extract, (2) Gap Check, (3) Match Offers, (4) Design, (5) Draft SOW. A partner architect reviews and approves every output; the agent never sends anything to a customer.
+- After the workshop – a Copilot Studio agent, the core orchestration layer, runs five steps. The partner architect works with it from Cowork, the front end: (1) Extract, (2) Gap Check, (3) Match Offers, (4) Design, (5) Draft SOW. A partner architect reviews and approves every output; the agent never sends anything to a customer.
 
 # 2. Problem Clarity and Customer Relevance
 *Is the problem real, specific and worth solving for a named customer/partner scenario?*
@@ -41,13 +41,13 @@ General-purpose tools such as Microsoft 365 Copilot can summarize a meeting or h
 ***Final Solution Requirement** - Technical decisions, appropriate technologies, scalability, path beyond the hackathon*
 *Genuinely innovative approach or meaningful improvement over existing tooling*
 ***Final Solution Requirement** Deliberate, justified design; scales; realistic route to a real product.*
-The solution uses managed Microsoft services so it can be built as a working proof of concept within the November build phase and scaled into a partner product. The agent is orchestrated in Azure AI Foundry Agent Service (Copilot Studio is an alternative for low-code partners), grounded with retrieval over the partner offer library, and outputs documents through Power Automate and Microsoft Graph. Each partner deploys in its own tenant, which keeps data isolated and lets the solution scale partner by partner.
+The solution uses managed Microsoft services so it can be built as a working proof of concept within the November build phase and scaled into a partner product. Following judges' feedback, the core process runs as a Copilot Studio agent, with Cowork as the front end, rather than as an Azure project: this is a shared organizational process, so a low-code, governed agent fits best. The agent is grounded on the partner offer library in SharePoint and produces documents through Power Automate agent flows. Each partner deploys in its own tenant, which keeps data isolated and lets the solution scale partner by partner.
 ## Core architectural components.
 - Workshop Template – discovery question bank per solution area.
 - Microsoft Teams + Microsoft Graph – meeting transcript and notes as input.
-- Azure AI Foundry Agent Service / Copilot Studio with Azure OpenAI – extraction, gap analysis, offer matching, architecture recommendation and SOW drafting.
+- Cowork – front end where the partner architect starts a run and reviews, edits and approves the outputs.
+- Copilot Studio agent – core orchestration: extraction, gap analysis, offer matching, architecture recommendation and SOW drafting, as a topic with prompt tools.
 - Offer Library (SharePoint list / Excel) – offers, phases, roles, hours, rate card, prerequisites, assumptions and exclusions.
-- Azure AI Search – indexes the offer library for retrieval-augmented generation (RAG).
 - Power Automate + Microsoft Graph – generates the Word SOW from a template, saves it to SharePoint, creates the Outlook follow-up draft and posts a Teams notification.
 [FIGURE: workshop-to-sow-architecture.png — caption "Figure 1 – Workshop-to-SOW Agent architecture"]
 ## Reference flow
@@ -55,7 +55,7 @@ The solution uses managed Microsoft services so it can be built as a working pro
 2. The agent retrieves the transcript and notes through Microsoft Graph.
 3. Extract: goals, pain points, current state, scope, constraints, timeline, stakeholders.
 4. Gap Check: compares extracted facts to required SOW inputs; flags gaps and drafts a follow-up email.
-5. Match Offers: retrieves matching offers from the offer library via Azure AI Search.
+5. Match Offers: retrieves matching offers from the offer library (Copilot Studio knowledge).
 6. Design: proposes a high-level reference architecture for the matched offers.
 7. Draft SOW: Power Automate generates the Word SOW (phases, roles, hours, pricing, assumptions) in SharePoint.
 8. Human review: the partner architect edits and approves the SOW and follow-up before anything is sent.
@@ -64,9 +64,9 @@ The solution uses managed Microsoft services so it can be built as a working pro
 *Data handling, grounding, identity/access, privacy, RAI considerations*
 *Sensitive data protected, access controlled, no secrets exposed, RAI risks acknowledged.*
 - Identity and access: Microsoft Entra ID authentication; least-privilege Graph permissions limited to the meetings and sites the agent needs.
-- Data handling: single-tenant deployment per partner; customer workshop data stays in the partner's Microsoft 365 / Azure tenant; no secrets in code (Azure Key Vault and managed identities).
+- Data handling: single-tenant deployment per partner; customer workshop data stays in the partner's Microsoft 365 tenant; connections use Entra ID with least privilege and no secrets in code.
 - Grounding: SOW content is grounded in the transcript and the partner's offer library; the agent cites the offer used and marks assumptions and gaps rather than inventing them.
-- Protection: Microsoft Purview sensitivity labels applied to generated SOWs; Azure AI Content Safety on inputs and outputs.
+- Protection: Microsoft Purview sensitivity labels applied to generated SOWs; Copilot Studio content moderation on inputs and outputs.
 - Responsible AI: human-in-the-loop approval — the agent drafts, a person approves, and nothing is sent automatically; customers are informed that the workshop is transcribed.
 - Auditability and reliability: actions logged for audit; failed steps retry and notify the architect.
 - Demo data: the hackathon demo uses only synthetic data (fictional partner "Contoso Consulting" and fictional customer "Fabrikam") — no real customer information.
@@ -74,14 +74,14 @@ The solution uses managed Microsoft services so it can be built as a working pro
 # 7. Microsoft Technology Alignment
 *Fit with Azure AI, Copilot Studio, Foundry, agentic patterns and FY27 priorities.*
 *Right Microsoft stack for the job, used purposefully — not bolted on.*
-The solution uses the Microsoft stack for what each service does best: Azure AI Foundry Agent Service and Azure OpenAI for agentic reasoning; Azure AI Search for retrieval over partner IP; Microsoft Teams and Microsoft Graph for workshop input; SharePoint, Word and Outlook for outputs; Power Automate for document workflow; and Entra ID, Purview and Azure AI Content Safety for governance. It follows an agentic pattern (a multi-step agent with tools and human approval) and supports FY27 priorities around partner-led AI transformation, workshop-led activation and co-sell pipeline growth.
+The solution uses the Microsoft stack for what each service does best: Cowork as the front end; Copilot Studio for agent orchestration and grounding over partner IP; Microsoft Teams and Microsoft Graph for workshop input; SharePoint, Word and Outlook for outputs; Power Automate for document workflow; and Entra ID, Purview and Copilot Studio content moderation for governance. It follows an agentic pattern (a multi-step agent with tools and human approval) and supports FY27 priorities around partner-led AI transformation, workshop-led activation and co-sell pipeline growth.
 
 # 7. Reusability and GTM Potential
 *Can this become reusable IP, a packaged offer or a marketplace solution?*
 *Credible path to repeatable IP / GTM beyond a one-off demo*
 - Reusable IP: the agent, workshop templates and SOW template are generic; each partner loads its own offer library and rate card once.
 - Packaged offer: partners can use it internally to speed up presales, or package "workshop + proposal in 24 hours" as a differentiated offer.
-- Marketplace path: can be published as a deployable solution template (Copilot Studio solution or Azure deployment template) on Microsoft Marketplace.
+- Marketplace path: can be published as a deployable solution template (Copilot Studio / Power Platform solution) on Microsoft Marketplace.
 - Scale: starter workshop templates for Microsoft solution plays (AI readiness, security, data, migration, FinOps) let new partners start quickly.
 
 # 8. Suggested Pilot

@@ -79,8 +79,22 @@ an Outlook follow-up email as a draft (never sent) holding the questions
 for any missing information, and notifies the partner architect in
 Teams. A human partner architect reviews and approves every output; the
 agent never sends anything. The fastest proof-of-concept route is
-Microsoft Copilot Studio with generative orchestration and an Azure
-OpenAI model, which is what this pack builds.
+Microsoft Copilot Studio with generative orchestration, which is what
+this pack builds.
+
+**Architecture (updated per judges' feedback).** Following the Hack to
+Build judges' feedback, this shared organizational process runs as a
+Copilot Studio agent rather than as an Azure project. Cowork is the
+front end: the partner architect starts a run there and reviews, edits
+and approves every output. The Copilot Studio agent is the core
+orchestration layer: one topic runs the five steps (Extract, Gap Check,
+Match Offers, Design, Draft SOW) as prompt tools, with the Offer Library
+in SharePoint as its knowledge. A Power Automate agent flow produces the
+outputs: the Word SOW saved to the SharePoint "SOW Drafts" folder, an
+Outlook follow-up email left as a draft (never sent) and a Teams notice.
+No Azure project is required; Azure AI Foundry, Azure AI Search and
+Azure Key Vault are not part of the target architecture, and a
+bring-your-own Azure OpenAI model remains optional.
 
 By the end of this guide you will have:
 
@@ -166,10 +180,9 @@ slightly in your tenant, look for the nearest equivalent.
     Teams.
 
 6.  Model: in the agent's Settings, under Generative AI, choose the
-    strongest available GPT model for the primary response model. If
-    your environment allows bringing your own model, connect your Azure
-    OpenAI deployment from Azure AI Foundry instead, so the demo shows
-    the Azure OpenAI path.
+    strongest available GPT model for the primary response model.
+    Bringing your own Azure OpenAI model is optional and not required
+    for the PoC; no Azure project is needed.
 
 7.  Orchestration: turn on generative orchestration (Settings,
     Generative AI, "Use generative AI orchestration"). This lets the
@@ -195,6 +208,14 @@ slightly in your tenant, look for the nearest equivalent.
 12. Test in the side panel with "What does OFF-03 cost and which roles
     does it use?" The answer should cite the offer library and say
     \$78,600.
+
+13. Connect the agent to Cowork: publish the agent and make it available
+    in Cowork, which is the front end for the partner architect. The
+    architect starts a run from Cowork, hands over the workshop
+    transcript, and reviews, edits and approves the extracted facts,
+    gaps, offer matches, design and SOW draft there before the agent
+    flow produces the documents. The Copilot Studio agent stays the
+    orchestration layer behind it.
 
 > **PoC tip: Excel knowledge can be unreliable.** Spreadsheet knowledge
 > sources are indexed as text chunks, so prices and role hours can be
@@ -861,16 +882,17 @@ review line.
 - [ ] Isolation: one tenant (or at minimum one environment) per partner,
   so no partner's offers or transcripts are visible to another.
 
-- [ ] Secrets: any keys or connection strings live in Azure Key Vault,
-  never in instructions, topics or flow actions.
+- [ ] Connections and secrets: Power Platform connections use Microsoft
+  Entra ID with least privilege; no keys, secrets or connection strings
+  in instructions, prompts, topics or flow actions.
 
 - [ ] Data protection: Microsoft Purview sensitivity labels on
   transcripts, the offer library and generated SOW drafts (for example
   "Confidential").
 
-- [ ] Content safety: Copilot Studio moderation set to High; Azure AI
-  Content Safety, including prompt shields, on the Azure OpenAI
-  deployment.
+- [ ] Content safety: Copilot Studio content moderation set to High; a
+  Power Platform data loss prevention (DLP) policy on the environment
+  limits which connectors the agent and the agent flow can use.
 
 - [ ] Prompt injection: transcript treated as data in instructions; Test
   3 passed.
@@ -929,20 +951,19 @@ review line.
 
 # 11. Production path
 
-The PoC proves the workflow; production moves the reasoning to Azure AI
-Foundry Agent Service, where the five steps become a governed agent (or
-a small set of connected agents) with versioned prompts, evaluations and
-tracing. The offer library moves into an Azure AI Search index (offers,
-roles, rates and required inputs as structured fields), so matching and
-pricing are retrieved exactly rather than from document chunks.
-Transcripts are retrieved from Teams meetings through Microsoft Graph
-(online meeting transcripts) with admin-consented, least-privilege
-permissions, instead of manual upload. Power Automate keeps producing
-the outputs: the Word template, the SharePoint SOW library, Outlook
-drafts and Teams notices. Secrets and connection details sit in Azure
-Key Vault behind managed identities, and the solution is deployed one
-tenant per partner, with Purview labels, Azure AI Content Safety and
-central audit logging carried over from the PoC checklist.
+Following the judges' feedback, production keeps the PoC architecture
+rather than moving to an Azure project: the Copilot Studio agent stays
+the core orchestration layer and Cowork stays the front end. The agent,
+its topic, prompt tools and agent flow are packaged as a Power Platform
+solution that each partner imports into its own tenant and environment
+(dev, test, prod), then loads its own offer library and rate card.
+Transcripts are read from Teams meetings through the Teams/Graph
+connector with least-privilege connections instead of manual upload.
+Power Automate keeps producing the outputs: the Word template, the
+SharePoint SOW library, Outlook drafts and Teams notices. Governance
+comes from Power Platform DLP policies, Purview labels and audit,
+Copilot Studio content moderation and analytics, and the human-approval
+step carried over from the PoC.
 
 Draft build guide prepared for the Hack to Build proof of concept. All
 demo data is synthetic.
