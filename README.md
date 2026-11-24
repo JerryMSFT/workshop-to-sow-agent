@@ -65,8 +65,8 @@ flowchart LR
 
 | Answer | What happens |
 |:---:|---|
-| ✅ **Yes** | The agent saves a Word SOW to **OneDrive** and creates an **Outlook** draft to the architect with the SOW attached. |
-| ⛔ **No** | The agent stops. Nothing is saved or drafted. |
+| ✅ **"Yes, create it"** | The agent saves a Word SOW to **OneDrive** and creates an **Outlook** draft to the architect with the SOW attached. |
+| ⛔ **"No, stop here"** | The agent stops. Nothing is saved or drafted. |
 
 > [!IMPORTANT]
 > The agent never sends anything to the customer. The architect reviews and sends.
