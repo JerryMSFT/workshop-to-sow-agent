@@ -63,8 +63,10 @@ flowchart LR
     Q -- No --> N[Stop.<br/>Nothing saved.]
 ```
 
-- **Yes:** the agent saves a Word SOW to OneDrive and creates an Outlook draft to the architect with the SOW attached.
-- **No:** the agent stops. Nothing is saved or drafted.
+| Answer | What happens |
+|:---:|---|
+| ✅ **Yes** | The agent saves a Word SOW to **OneDrive** and creates an **Outlook** draft to the architect with the SOW attached. |
+| ⛔ **No** | The agent stops. Nothing is saved or drafted. |
 
 > [!IMPORTANT]
 > The agent never sends anything to the customer. The architect reviews and sends.
