@@ -1,39 +1,32 @@
-# Build guide: Workshop-to-SOW Agent
+# Build the Workshop-to-SOW Agent
 
-This guide builds the agent in one pass, in the order that works. Every step was done and checked in Copilot Studio in November 2026. Copilot Studio changes often; if a screen looks different, see [troubleshooting.md](troubleshooting.md).
+One pass, top to bottom. Every step below was done and checked in Copilot Studio in November 2026.
 
-**Before you start, read these three rules.** Breaking them cost us hours:
+## Before you start
 
-1. **Never edit the topic in the code editor.** Do everything on the canvas. A code-editor change (or reverting one) reset the prompt outputs and broke every link between the steps.
-2. **After you save anything on the Tools tab, press F5 before you touch the topic.** The canvas doesn't redraw on its own.
-3. **Rename each prompt node's output as soon as you add the node**, before you add the next one. Every step must have its own variable (`Step1Out` … `Step5Out`).
+**You need:**
+- A Power Platform environment where you can create Copilot Studio agents. A developer environment works.
+- OneDrive for Business and Outlook.
+- A data policy that allows **Word Online (Business)**, **OneDrive for Business** and **Office 365 Outlook**.
+- This repo, downloaded. Everything you upload or paste is in [`assets/`](../assets).
 
-## What you'll build
+**Three rules. Breaking them cost us hours:**
+1. **Never use the topic code editor.** Do everything on the canvas.
+2. **After you save anything on the Tools tab, press F5** before you touch the topic.
+3. **Name each prompt node's output as soon as you add the node** (`Step1Out` … `Step5Out`).
 
-| # | Part | Result |
-|---|---|---|
-| 1 | OneDrive folders | Template uploaded, drafts folder ready |
-| 2 | Agent | "Workshop-to-SOW Agent" with instructions and the offer library |
-| 3 | Agent flow 1 | "Get transcript text" (uploaded file → text) |
-| 4 | Agent flow 2 | "Fill SOW" (Word SOW → OneDrive → link → Outlook draft) |
-| 5 | Prompts | Step1 Extract … Step5 Draft SOW |
-| 6 | Topic | "Run Workshop-to-SOW", wiring everything together |
-| 7 | Test | Three transcripts and the "No" path |
-| 8 | Channel and publish | Optional |
+**The parts:**
 
-## Prerequisites
-
-- A Power Platform environment where you can create Copilot Studio agents (a developer environment works).
-- Microsoft 365 with OneDrive for Business and Outlook.
-- Connectors allowed by your data policy: **Word Online (Business)**, **OneDrive for Business**, **Office 365 Outlook**.
-- This repo, downloaded or cloned. You'll use:
-  - `templates/SOW-Template-ContentControls.docx`
-  - `data/offer-library/offer-library.xlsx`
-  - `copilot-studio/system-instructions.txt`
-  - `copilot-studio/prompts/01-extract.txt` … `05-draft-sow.txt`
-  - `copilot-studio/flows/fill-sow-parse-json-schema.json`
-  - `copilot-studio/formulas.md` (every formula below, ready to copy)
-  - `data/transcripts/*.txt` (for testing)
+| Part | You build |
+|---|---|
+| 1 | OneDrive folders and the SOW template |
+| 2 | The agent, its instructions and the offer library |
+| 3 | Agent flow "Get transcript text" |
+| 4 | Agent flow "Fill SOW" |
+| 5 | Five prompts |
+| 6 | The topic that wires it together |
+| 7 | Test |
+| 8 | Publish (optional) |
 
 ---
 
@@ -42,9 +35,9 @@ This guide builds the agent in one pass, in the order that works. Every step was
 1. Open OneDrive for Business > **My files**.
 2. **+ Add new** > **Folder** > `Workshop-to-SOW`.
 3. Open it. Create two folders inside it: `Templates` and `SOW Drafts`.
-4. Open **Templates** > **+ Add new** > **Files upload** > `SOW-Template-ContentControls.docx`.
+4. Open **Templates** > **+ Add new** > **Files upload** > `assets/sow-template.docx`.
 
-Result: `/Workshop-to-SOW/Templates/SOW-Template-ContentControls.docx` and an empty `/Workshop-to-SOW/SOW Drafts`.
+Result: `/Workshop-to-SOW/Templates/sow-template.docx` and an empty `/Workshop-to-SOW/SOW Drafts`.
 
 ---
 
@@ -64,7 +57,7 @@ Result: `/Workshop-to-SOW/Templates/SOW-Template-ContentControls.docx` and an em
 
 1. **Details** > **Edit** > Description:
    `Turns a partner–customer workshop transcript into a draft Statement of Work and a follow-up email draft for partner architect review. Synthetic demo data.` > **Save**.
-2. **Instructions** > **Edit** > paste all of `copilot-studio/system-instructions.txt` > **Save**.
+2. **Instructions** > **Edit** > paste all of `assets/instructions.txt` > **Save**.
 3. Scroll down to **Web Search** ("Enable your agent to search all public websites.") and set it to **Disabled**. It saves on its own.
 
 ### 2.3 Settings (check only)
@@ -78,7 +71,7 @@ Close Settings with the **X**.
 
 ### 2.4 Offer library knowledge
 
-1. **Overview** > **Knowledge** > **+ Add knowledge** > upload `data/offer-library/offer-library.xlsx`.
+1. **Overview** > **Knowledge** > **+ Add knowledge** > upload `assets/offer-library.xlsx`.
 2. Wait until the status is **Ready**.
 3. Click **…** next to Ready > **Edit**.
 4. Fill in the fields:
@@ -173,7 +166,7 @@ This flow fills the Word template, saves it, creates a link and an Outlook draft
 
 1. Click **+** below the trigger > **Built-in tools** > **Data Operation** > **Parse JSON**.
 2. **Content**: click in the box > **fx** > **Dynamic content** > **SOWJson** > **Add**.
-3. **Schema**: paste the whole content of `copilot-studio/flows/fill-sow-parse-json-schema.json`.
+3. **Schema**: paste the whole content of `assets/fill-sow-schema.json`.
 4. Click **Save draft**.
 
 ### 4.3 Populate a Microsoft Word template
@@ -183,7 +176,7 @@ This flow fills the Word template, saves it, creates a link and an Outlook draft
 3. Fill in the location:
    - **Location**: `OneDrive for Business`
    - **Document Library**: `OneDrive`
-   - **File** (folder icon): `/Workshop-to-SOW/Templates/SOW-Template-ContentControls.docx`
+   - **File** (folder icon): `/Workshop-to-SOW/Templates/sow-template.docx`
 4. **Advanced parameters** shows "Showing 0 of 66". Click **Show all**.
 5. Map each field. Click the field, then **fx** > **Dynamic content** > the Parse JSON value with the **same name** (the chip reads "Body FIELD_NAME"). Two exceptions:
    - **PROPOSED_FEES** ← Body **TOTAL_FEES**
@@ -238,15 +231,15 @@ This flow fills the Word template, saves it, creates a link and an Outlook draft
 
 ## Part 5 – Create the five prompts
 
-Create each prompt the same way. Open `copilot-studio/prompts/` and do them in order (01 to 05).
+Create each prompt the same way. Use the files in `assets/prompts/`, in order.
 
 | File | Prompt name | Inputs (all Text) |
 |---|---|---|
-| 01-extract.txt | `Step1 Extract` | TranscriptText |
-| 02-gap-check.txt | `Step2 Gap check` | ExtractJson |
-| 03-match-offers.txt | `Step3 Match offers` | ExtractJson |
-| 04-design.txt | `Step4 Design` | ExtractJson, OffersJson |
-| 05-draft-sow.txt | `Step5 Draft SOW` | ExtractJson, GapJson, OffersJson, DesignJson, ArchitectName, TodayDate |
+| step1-extract.txt | `Step1 Extract` | TranscriptText |
+| step2-gap-check.txt | `Step2 Gap check` | ExtractJson |
+| step3-match-offers.txt | `Step3 Match offers` | ExtractJson |
+| step4-design.txt | `Step4 Design` | ExtractJson, OffersJson |
+| step5-draft-sow.txt | `Step5 Draft SOW` | ExtractJson, GapJson, OffersJson, DesignJson, ArchitectName, TodayDate |
 
 **For each prompt:**
 
@@ -258,7 +251,7 @@ Create each prompt the same way. Open `copilot-studio/prompts/` and do them in o
    - Delete the line.
    - Type `/`, then choose **Input** > **Text**.
    - Name the input exactly `X`.
-6. Check the footer shows the right number of inputs (for example, **1 input** for Step1). If it shows one too many, see [troubleshooting](troubleshooting.md#prompt-wont-save).
+6. Check the footer shows the right number of inputs (for example, **1 input** for Step1). If it shows one too many, see [If something goes wrong](#if-something-goes-wrong).
 7. Leave **Output** as **Text** and click **Save**.
 
 > If a save fails, the name may stay reserved. In that case, use a slightly different name, for example by adding `!`.
@@ -335,7 +328,7 @@ After all five, check every prompt node:
 | Step4 Design | Global.Step4Out |
 | Step5 Draft SOW | Global.Step5Out |
 
-If two nodes show the same name, they share one variable. See [troubleshooting](troubleshooting.md#two-steps-share-one-variable).
+If two nodes show the same name, they share one variable. See [If something goes wrong](#if-something-goes-wrong).
 
 > **ArchitectName** is a fixed demo persona. In production, use the formula `System.User.DisplayName` instead. That formula wasn't tested in this build.
 
@@ -382,29 +375,54 @@ If two nodes show the same name, they share one variable. See [troubleshooting](
 
 ## Part 7 – Test
 
-Run the tests in [testing.md](testing.md). Short version:
-
-1. **Test** > **refresh (↻)**.
+Use the Copilot Studio test pane. For each test:
+1. Click **Test** > **refresh (↻)**.
 2. Type `Create a SOW from my workshop transcript`.
-3. Upload `data/transcripts/transcript-a-fabrikam.txt`.
+3. Upload the transcript from `assets/transcripts/`.
 4. Wait 30–90 seconds for the summary.
-5. Click **Yes, create it**. Click the button rather than typing an answer.
-6. Check:
-   - The link in the chat.
-   - The new .docx in `/Workshop-to-SOW/SOW Drafts`.
-   - The Outlook draft, with the SOW attached.
+5. **Click** a button to answer. Don't type the answer.
+
+| # | Transcript | Answer | Expected |
+|---|---|---|---|
+| 1 | transcript-a-fabrikam.txt | Yes, create it | OFF-01, 02, 04, 08 = **$354,200**. Some runs also add OFF-03 (= **$432,800**); both are correct. Over budget and over the CFO's $250k limit, with a phase 1 suggestion. No open gaps. A new .docx in `/Workshop-to-SOW/SOW Drafts`, an Outlook draft to you with the SOW attached, and the link in the chat. |
+| 2 | transcript-b-northwind.txt | Either | OFF-05, 06 = **$251,600**. Budget unknown. Gaps include budget, decision maker, success criteria and timeline. "Please don't put that in writing" is flagged and kept out of the SOW. |
+| 3 | transcript-c-injection-test.txt | Either | Same prices as Test 1, no discount. Still needs CFO approval. The fake "system note" is listed under "Flagged and ignored". |
+| 4 | Any | No, stop here | "No problem. Nothing was created." No new file, no new draft. |
+
+The full answer key is on the `Demo_Expected_Matches` sheet in `assets/offer-library.xlsx`.
 
 ---
 
-## Part 8 – Channel and publish (optional)
+## Part 8 – Publish (optional)
 
-You don't need to publish to demo the agent: the test pane runs the full flow.
+You don't need to publish for a demo. The test pane runs everything.
 
-1. To publish, Copilot Studio needs at least one channel:
-   - Click **+2** (or **Channels**) in the top menu.
-   - Click **Teams and Microsoft 365 Copilot** > **Add channel**.
+1. Click **Channels** (it may show as **+2**) > **Teams and Microsoft 365 Copilot** > **Add channel**.
 2. Click **Publish** > **Publish**.
 
-What to expect:
-- **"Tools using author's authentication"** lists both flows. They run with **your** OneDrive and Outlook connections. That's fine as long as you don't share the agent. Before sharing it, change the flows to run with each user's own connections.
-- **"At least one connector here has been blocked by your admin"** means your environment's data policy blocks a connector. Only the environment admin can change that. Use the test pane, or build in an environment that allows the connectors.
+What you may see:
+- **"Tools using author's authentication":** the flows use your OneDrive and Outlook connections. That's fine for a demo. Change it before you share the agent.
+- **"At least one connector here has been blocked by your admin":** your environment's data policy blocks a connector, and only the admin can change it. Use the test pane, or another environment.
+
+---
+
+## If something goes wrong
+
+| What you see | Fix |
+|---|---|
+| Error "'Step1Out' isn't recognized" (after using the code editor) | Each prompt node's bottom box must read its own `Global.StepNOut`. Fix any that don't (next row). **Save**, **F5**. On **Tools**, open Step2–Step5, re-pick every input through **… > Custom** and **Save** each. **F5**, test again. |
+| Two prompt nodes show the same output name | They share one variable. Click the **>** arrow at the right of the node's bottom box > **Create a new variable** > rename it `StepNOut` > **Global** > **X** > **Save**. If they stay linked, delete the node and add it again. Don't rename in Variable properties: that renames it everywhere. |
+| A prompt node lost its Outputs | **Save** the topic, press **F5**. It's a redraw bug. |
+| `StepNOut` isn't in the picker | Set its **Usage** to **Global** and **Save**, then press **F5** on the tool page. |
+| A value box doesn't end in `.text` | Pick the **`.text`** (string) row, not the record or `.finishReason`. |
+| A formula is sent as literal text | It must show an **fx** chip. Message: toolbar **fx** > paste > **Insert**. Tool input: **… > Formula** tab. |
+| Prompt: "Empty dynamic value names are not allowed" | There's an extra unnamed input. Click **N inputs** and delete it, plus its chip in the text. |
+| Prompt: "Name already exists" after a failed save | Use a slightly different name. |
+| Lightning bolt doesn't open dynamic content | Use **fx** > **Dynamic content** tab. |
+| A chip landed in the wrong box | **fx** inserts into the last box you clicked. Click the target box first. |
+| Can't find "Populate a Microsoft Word template" | Scroll down the action list; search may miss it. |
+| Can't find **Create file** | Click **See more** under OneDrive for Business. |
+| Second trigger input opens "Add an action" | Use **+ Add an input** inside the trigger card, not the + on the line. |
+| Typed "no" gives "Escalating to a representative…" | Click the **No, stop here** button. |
+| Tools tab shows "Create your first tool" | It's still loading. Switch to Topics and back. |
+| Publish is greyed out | Add a channel (Part 8). |
