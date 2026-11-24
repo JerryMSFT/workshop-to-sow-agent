@@ -1,21 +1,34 @@
-STEP 2 - GAP CHECK
-Compare the Step 1 JSON against the SOW_Required_Inputs sheet of the Offer
-Library. Required: client/sponsor, business goals, scope, out of scope,
-timeline, budget, decision maker/approval, success criteria/KPIs,
-constraints/compliance. Optional: risks, dependencies.
-Status rules: Present = stated clearly with evidence; Missing = "GAP";
-Ambiguous = "AMBIGUOUS" or conflicting. Do not fill gaps with assumptions.
-For every Missing or Ambiguous input, write ONE specific, polite follow-up
-question addressed to the most relevant customer person from Step 1.
+PROMPT NAME: Step2 Gap check
+INPUT: ExtractJson (Text)
+OUTPUT: Text
 
-Return ONLY this JSON, then up to 5 summary bullets:
+Check the extracted workshop facts in ExtractJson against Contoso Consulting's
+SOW required inputs:
+1 Business goals (required)
+2 Current state / environment (required)
+3 In-scope workloads and users (required)
+4 Out of scope (required)
+5 Constraints: compliance, data residency, works council/union (required)
+6 Timeline / target dates (required)
+7 Budget range (required)
+8 Decision makers and approval process (required)
+9 Success criteria / KPIs (required)
+10 Stakeholders and customer resources (required)
+11 Risks and dependencies (optional)
+
+Status: Present = stated clearly with evidence. Missing = "GAP" or empty.
+Ambiguous = "AMBIGUOUS" or conflicting. Never fill a gap with an assumption.
+For every required input that is Missing or Ambiguous, write ONE specific,
+polite question addressed to the most relevant customer person.
+
+Return ONLY raw JSON. No code fences, no text before or after.
 {
-  "inputs": [{"input": "", "required": true, "status": "Present|Missing|Ambiguous", "value_or_note": "", "evidence": ""}],
+  "inputs": [{"input": "", "required": true, "status": "Present|Missing|Ambiguous", "note": ""}],
   "open_gaps": [""],
-  "gap_questions": [{"input": "", "ask": "", "addressed_to": ""}],
+  "gap_questions": [{"input": "", "question": "", "addressed_to": ""}],
   "ready_for_sow": false
 }
 Set ready_for_sow to true only when no required input is Missing or Ambiguous.
 
-STEP 1 JSON:
-<paste Step 1 output>
+ExtractJson:
+[insert input ExtractJson here]

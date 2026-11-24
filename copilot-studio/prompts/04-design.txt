@@ -1,21 +1,31 @@
-STEP 4 - DESIGN
-For each matched offer from Step 3, describe a high-level Microsoft
-architecture that delivers it. Use only Microsoft services and practices that
-fit the offer and the stated constraints (for example Microsoft 365 Copilot,
-Microsoft Purview, SharePoint Advanced Management, Entra ID, Copilot Studio,
-Azure AI Foundry, Azure landing zones, Microsoft Cost Management). Respect
-every constraint from Step 1, such as data residency, works council
-consultation and change freezes. Mark anything not supported by the
-transcript as an assumption.
+PROMPT NAME: Step4 Design
+INPUTS: ExtractJson (Text), OffersJson (Text)
+OUTPUT: Text
 
-Return ONLY this JSON, then up to 5 summary bullets:
+For each matched offer in OffersJson, describe a high-level Microsoft
+solution and a delivery plan. Use only Microsoft services that fit the offer
+and the constraints in ExtractJson. Respect every constraint (data residency,
+works council consultation, change freezes, blackout periods). Mark anything
+not supported by the transcript as an assumption.
+
+Plan exactly 3 delivery phases that cover all matched offers, in order, with
+durations in weeks that fit the customer's timeline. Start date = the
+customer's stated start, else "GAP".
+
+Return ONLY raw JSON. No code fences, no text before or after.
 {
   "solution_summary": "",
-  "components": [{"offer_id": "", "microsoft_services": [], "design_notes": "", "constraint_handling": ""}],
+  "phases": [{"name": "", "activities": "", "duration": "", "milestone": ""}],
+  "start_date": "",
+  "end_date": "",
+  "key_dates": "",
   "assumptions": [""],
-  "risks": [{"risk": "", "mitigation": "", "source": "transcript|design"}],
+  "risks": [{"risk": "", "mitigation": ""}],
   "dependencies": [""]
 }
 
-STEP 1-3 JSON:
-<paste>
+ExtractJson:
+[insert input ExtractJson here]
+
+OffersJson:
+[insert input OffersJson here]

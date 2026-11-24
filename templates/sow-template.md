@@ -1,9 +1,10 @@
 # Statement of Work
 
-*Template for the Workshop-to-SOW Agent. Tokens in double curly braces
-are filled by the agent from the workshop transcript, the offer library
-and the Gap Check step. A partner architect reviews every draft before
-anything is sent.*
+> **Template used by the flow:** `SOW-Template-ContentControls.docx` (66 Word content controls, title = field name).
+> This Markdown file is a readable reference of the same layout. The second `{{TOTAL_FEES}}` (section 12) is the control `PROPOSED_FEES`;
+> the second `{{PARTNER_ARCHITECT}}` (section 15) is `PARTNER_ARCHITECT_SIGNATURE`. Follow-up email: see `follow-up-email.md`.
+
+
 
 ## 1. Cover
 
@@ -23,7 +24,7 @@ anything is sent.*
 
 The engagement supports the following business goals:
 
-- {{BUSINESS_GOALS}}
+{{BUSINESS_GOALS}}
 
 ## 3. Scope of work
 
@@ -132,14 +133,11 @@ In addition, the following standard assumptions apply:
 | Proposed fees | {{TOTAL_FEES}}    |
 | Budget flag   | {{BUDGET_FLAG}}   |
 
-*Example flag: over budget or above the approval threshold; recommend
-phasing the engagement.*
-
 ## 13. Open items and information gaps
 
 {{OPEN_GAPS}}
 
-*Filled by the Gap Check step. Each open item must be resolved or
+*Each open item must be resolved or
 carried into the follow-up email before the SOW is finalized.*
 
 ## 14. Change control
@@ -174,57 +172,6 @@ Consulting.
 ☐ Constraints, data residency and compliance needs are captured
 
 ☐ Approved by the partner architect
-
-*Synthetic demo data — AI-generated draft, requires partner architect
-approval*
-
-# Follow-up Email Template
-
-*Template for requesting missing SOW inputs after the workshop.*
-
-**Subject:** Follow-up from our {{WORKSHOP_DATE}} workshop – a few items
-to finalize your SOW
-
-Hi {{CLIENT_CONTACT_FIRST_NAME}},
-
-Thank you again for the time you and your team spent with us in the
-workshop. It was a productive session, and we have a clear picture of
-where you want to go.
-
-Here is a short recap of what we heard:
-
-- {{RECAP_BULLETS}}
-
-Our proposed approach: {{PROPOSED_OFFERS}}
-
-To finalize the SOW, could you help us with:
-
-- {{GAP_QUESTIONS}}
-
-*Example filled list (Northwind Traders demo):*
-
-1.  Budget range: what budget range should we plan the engagement
-    against for this fiscal year?
-
-2.  Decision maker and approval process: who will approve the SOW, and
-    what approval steps or thresholds apply?
-
-3.  Success criteria and KPIs: which measurable outcomes would tell you
-    the engagement was a success?
-
-4.  Target timeline: what are your target start and completion dates,
-    including the end date of your current data center lease?
-
-As a next step, I suggest we meet for {{NEXT_STEP_MEETING}} to walk
-through your answers and the draft SOW together.
-
-Best regards,
-
-{{PARTNER_ARCHITECT}}
-
-Contoso Consulting
-
-> Generated as an Outlook DRAFT only. The agent never sends.
 
 *Synthetic demo data — AI-generated draft, requires partner architect
 approval*

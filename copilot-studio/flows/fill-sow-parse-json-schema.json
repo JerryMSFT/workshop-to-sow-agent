@@ -1,0 +1,203 @@
+{
+  "type": "object",
+  "properties": {
+    "CLIENT_NAME": {
+      "type": "string"
+    },
+    "ENGAGEMENT_TITLE": {
+      "type": "string"
+    },
+    "SOW_NUMBER": {
+      "type": "string"
+    },
+    "SOW_DATE": {
+      "type": "string"
+    },
+    "PARTNER_ARCHITECT": {
+      "type": "string"
+    },
+    "CLIENT_SPONSOR": {
+      "type": "string"
+    },
+    "BACKGROUND": {
+      "type": "string"
+    },
+    "BUSINESS_GOALS": {
+      "type": "string"
+    },
+    "OFFER_ID_1": {
+      "type": "string"
+    },
+    "OFFER_NAME_1": {
+      "type": "string"
+    },
+    "OFFER_DESCRIPTION_1": {
+      "type": "string"
+    },
+    "OFFER_DELIVERABLES_1": {
+      "type": "string"
+    },
+    "OFFER_ID_2": {
+      "type": "string"
+    },
+    "OFFER_NAME_2": {
+      "type": "string"
+    },
+    "OFFER_DESCRIPTION_2": {
+      "type": "string"
+    },
+    "OFFER_DELIVERABLES_2": {
+      "type": "string"
+    },
+    "OFFER_ID_3": {
+      "type": "string"
+    },
+    "OFFER_NAME_3": {
+      "type": "string"
+    },
+    "OFFER_DESCRIPTION_3": {
+      "type": "string"
+    },
+    "OFFER_DELIVERABLES_3": {
+      "type": "string"
+    },
+    "OUT_OF_SCOPE": {
+      "type": "string"
+    },
+    "PHASE_1": {
+      "type": "string"
+    },
+    "PHASE_1_ACTIVITIES": {
+      "type": "string"
+    },
+    "PHASE_1_DURATION": {
+      "type": "string"
+    },
+    "PHASE_1_MILESTONE": {
+      "type": "string"
+    },
+    "PHASE_2": {
+      "type": "string"
+    },
+    "PHASE_2_ACTIVITIES": {
+      "type": "string"
+    },
+    "PHASE_2_DURATION": {
+      "type": "string"
+    },
+    "PHASE_2_MILESTONE": {
+      "type": "string"
+    },
+    "PHASE_3": {
+      "type": "string"
+    },
+    "PHASE_3_ACTIVITIES": {
+      "type": "string"
+    },
+    "PHASE_3_DURATION": {
+      "type": "string"
+    },
+    "PHASE_3_MILESTONE": {
+      "type": "string"
+    },
+    "ROLE_1": {
+      "type": "string"
+    },
+    "RATE_1": {
+      "type": "string"
+    },
+    "HOURS_1": {
+      "type": "string"
+    },
+    "AMOUNT_1": {
+      "type": "string"
+    },
+    "ROLE_2": {
+      "type": "string"
+    },
+    "RATE_2": {
+      "type": "string"
+    },
+    "HOURS_2": {
+      "type": "string"
+    },
+    "AMOUNT_2": {
+      "type": "string"
+    },
+    "ROLE_3": {
+      "type": "string"
+    },
+    "RATE_3": {
+      "type": "string"
+    },
+    "HOURS_3": {
+      "type": "string"
+    },
+    "AMOUNT_3": {
+      "type": "string"
+    },
+    "ROLE_4": {
+      "type": "string"
+    },
+    "RATE_4": {
+      "type": "string"
+    },
+    "HOURS_4": {
+      "type": "string"
+    },
+    "AMOUNT_4": {
+      "type": "string"
+    },
+    "TOTAL_FEES": {
+      "type": "string"
+    },
+    "START_DATE": {
+      "type": "string"
+    },
+    "END_DATE": {
+      "type": "string"
+    },
+    "KEY_DATES": {
+      "type": "string"
+    },
+    "BLACKOUT_PERIODS": {
+      "type": "string"
+    },
+    "SUCCESS_CRITERIA": {
+      "type": "string"
+    },
+    "ASSUMPTIONS": {
+      "type": "string"
+    },
+    "CONSTRAINTS": {
+      "type": "string"
+    },
+    "RISKS": {
+      "type": "string"
+    },
+    "CLIENT_BUDGET": {
+      "type": "string"
+    },
+    "BUDGET_FLAG": {
+      "type": "string"
+    },
+    "OPEN_GAPS": {
+      "type": "string"
+    },
+    "CLIENT_APPROVER": {
+      "type": "string"
+    },
+    "CLIENT_APPROVER_TITLE": {
+      "type": "string"
+    },
+    "ENGAGEMENT_LEAD": {
+      "type": "string"
+    },
+    "EMAIL_SUBJECT": {
+      "type": "string"
+    },
+    "EMAIL_BODY": {
+      "type": "string"
+    }
+  }
+}

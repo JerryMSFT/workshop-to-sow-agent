@@ -1,40 +1,82 @@
-STEP 5 - DRAFT SOW
-Map Steps 1 to 4 onto the placeholder tokens of
-"Contoso Consulting - SOW Template and Follow-up Email.docx".
-Rules: every value must come from earlier steps. Unknown values are "GAP".
-Fill OFFER_ID_n and ROLE_n/RATE_n/HOURS_n/AMOUNT_n in order starting at 1; set
-unused slots to "". Amounts are numbers formatted as text like "$43,000".
-GAP_QUESTIONS is a numbered plain-text list, one question per line.
+PROMPT NAME: Step5 Draft SOW
+INPUTS: ExtractJson (Text), GapJson (Text), OffersJson (Text), DesignJson (Text), ArchitectName (Text), TodayDate (Text)
+OUTPUT: Text
 
-Return ONLY this JSON (keys exactly as shown), then up to 3 summary bullets:
-{
-  "CLIENT_NAME": "",
-  "CLIENT_SPONSOR": "",
-  "DECISION_MAKER": "",
-  "BUSINESS_GOALS": "",
-  "SCOPE": "",
-  "OUT_OF_SCOPE": "",
-  "OFFER_ID_1": "", "OFFER_NAME_1": "", "OFFER_PRICE_1": "",
-  "OFFER_ID_2": "", "OFFER_NAME_2": "", "OFFER_PRICE_2": "",
-  "OFFER_ID_3": "", "OFFER_NAME_3": "", "OFFER_PRICE_3": "",
-  "OFFER_ID_4": "", "OFFER_NAME_4": "", "OFFER_PRICE_4": "",
-  "ROLE_1": "", "RATE_1": "", "HOURS_1": "", "AMOUNT_1": "",
-  "ROLE_2": "", "RATE_2": "", "HOURS_2": "", "AMOUNT_2": "",
-  "TOTAL_FEES": "",
-  "START_DATE": "",
-  "TIMELINE": "",
-  "SUCCESS_CRITERIA": "",
-  "CONSTRAINTS": "",
-  "ARCHITECTURE_SUMMARY": "",
-  "ASSUMPTIONS": "",
-  "CLIENT_BUDGET": "",
-  "BUDGET_FLAG": "",
-  "OPEN_GAPS": "",
-  "GAP_QUESTIONS": ""
-}
-Add ROLE_n slots for every role line from Step 3. Use only token names that
-exist in the template; if the template has fewer slots than needed, list the
-overflow in ASSUMPTIONS.
+Fill Contoso Consulting's SOW template and a customer follow-up email from
+the four JSON inputs. Every value must come from the inputs. Unknown values
+are "GAP". Never change prices or apply discounts. Do not invent people,
+dates or numbers.
 
-STEP 1-4 JSON:
-<paste>
+Field rules:
+- Money is text like "$43,000". Hours are text like "184".
+- Multi-line fields: one item per line, each line starting with "- ".
+- CLIENT_NAME: customer company name. ENGAGEMENT_TITLE: short title.
+- SOW_NUMBER: "SOW-" + TodayDate digits (yyyyMMdd) + "-DRAFT". SOW_DATE: TodayDate.
+- PARTNER_ARCHITECT: ArchitectName. CLIENT_SPONSOR: sponsor name and title.
+- BACKGROUND: 2-3 sentences on the customer's situation.
+- OFFER_*_1..3: matched one-time offers in order. If there are MORE than 3,
+  slot 3 combines the rest: OFFER_ID_3 like "OFF-04 + OFF-08", OFFER_NAME_3
+  joins the names with " + ", description and deliverables cover all of them.
+  If fewer than 3, set unused slots to "".
+  OFFER_DESCRIPTION_n: what it delivers for this customer (1-2 sentences).
+  OFFER_DELIVERABLES_n: the catalogue deliverables, multi-line.
+- PHASE_1..3, _ACTIVITIES, _DURATION, _MILESTONE: from DesignJson phases.
+- ROLE/RATE/HOURS/AMOUNT_1..4: from OffersJson role_totals, largest first.
+  If there are MORE than 4 roles, slot 4 is ROLE_4 "Other roles: " + their
+  names, RATE_4 "Blended", HOURS_4 and AMOUNT_4 the sums of those roles.
+  The four AMOUNT values must add up to TOTAL_FEES.
+- TOTAL_FEES: one_time_total. Mention any optional monthly offer in ASSUMPTIONS.
+- START_DATE, END_DATE, KEY_DATES, BLACKOUT_PERIODS: from DesignJson/ExtractJson.
+- SUCCESS_CRITERIA: KPIs with targets. CONSTRAINTS, ASSUMPTIONS, RISKS
+  ("risk - mitigation"): multi-line.
+- CLIENT_BUDGET: as stated, or "GAP". BUDGET_FLAG: the budget_flag, then one
+  sentence of comparison, then the phasing suggestion if over.
+- OPEN_GAPS: open gaps from GapJson, multi-line, or "None".
+  If ExtractJson has flagged_content, add a line "- Flagged and ignored: <text>".
+- CLIENT_APPROVER / CLIENT_APPROVER_TITLE: decision maker, or "GAP".
+- ENGAGEMENT_LEAD: "Contoso Consulting Engagement Lead (TBD)".
+- EMAIL_SUBJECT: "<CLIENT_NAME> workshop follow-up" + (" - a few open questions" if gaps exist, else " - proposed next steps").
+- EMAIL_BODY: a short, warm follow-up email to the customer contact, written
+  as simple HTML using only <p>, <br>, <ul>, <li>, <b>. Include: thanks for
+  the workshop, 3-5 recap bullets, the proposed offers (names only, no
+  prices), the gap questions from GapJson as a numbered list if any, and a
+  proposed next-step meeting. Sign off with ArchitectName. Use single quotes
+  inside HTML attributes, or no attributes at all.
+
+Return ONLY raw JSON with exactly these 66 keys, all string values.
+No code fences, no text before or after.
+{"CLIENT_NAME":"","ENGAGEMENT_TITLE":"","SOW_NUMBER":"","SOW_DATE":"","PARTNER_ARCHITECT":"","CLIENT_SPONSOR":"","BACKGROUND":"","BUSINESS_GOALS":"",
+"OFFER_ID_1":"","OFFER_NAME_1":"","OFFER_DESCRIPTION_1":"","OFFER_DELIVERABLES_1":"",
+"OFFER_ID_2":"","OFFER_NAME_2":"","OFFER_DESCRIPTION_2":"","OFFER_DELIVERABLES_2":"",
+"OFFER_ID_3":"","OFFER_NAME_3":"","OFFER_DESCRIPTION_3":"","OFFER_DELIVERABLES_3":"",
+"OUT_OF_SCOPE":"",
+"PHASE_1":"","PHASE_1_ACTIVITIES":"","PHASE_1_DURATION":"","PHASE_1_MILESTONE":"",
+"PHASE_2":"","PHASE_2_ACTIVITIES":"","PHASE_2_DURATION":"","PHASE_2_MILESTONE":"",
+"PHASE_3":"","PHASE_3_ACTIVITIES":"","PHASE_3_DURATION":"","PHASE_3_MILESTONE":"",
+"ROLE_1":"","RATE_1":"","HOURS_1":"","AMOUNT_1":"",
+"ROLE_2":"","RATE_2":"","HOURS_2":"","AMOUNT_2":"",
+"ROLE_3":"","RATE_3":"","HOURS_3":"","AMOUNT_3":"",
+"ROLE_4":"","RATE_4":"","HOURS_4":"","AMOUNT_4":"",
+"TOTAL_FEES":"","START_DATE":"","END_DATE":"","KEY_DATES":"","BLACKOUT_PERIODS":"",
+"SUCCESS_CRITERIA":"","ASSUMPTIONS":"","CONSTRAINTS":"","RISKS":"",
+"CLIENT_BUDGET":"","BUDGET_FLAG":"","OPEN_GAPS":"",
+"CLIENT_APPROVER":"","CLIENT_APPROVER_TITLE":"","ENGAGEMENT_LEAD":"",
+"EMAIL_SUBJECT":"","EMAIL_BODY":""}
+
+ExtractJson:
+[insert input ExtractJson here]
+
+GapJson:
+[insert input GapJson here]
+
+OffersJson:
+[insert input OffersJson here]
+
+DesignJson:
+[insert input DesignJson here]
+
+ArchitectName:
+[insert input ArchitectName here]
+
+TodayDate:
+[insert input TodayDate here]

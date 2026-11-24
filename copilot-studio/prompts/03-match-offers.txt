@@ -1,28 +1,104 @@
-STEP 3 - MATCH OFFERS
-Match the goals, scope and constraints from Step 1 to offers in the Offers and
-Offer_Roles sheets of the Offer Library. Use library prices exactly; never
-discount or change them. Monthly offers go in "optional_recurring" and are not
-added to the one-time total. Compare the total with the stated budget and any
-approval threshold. If the total exceeds the budget or a threshold, set the
-flag and propose a phasing option that keeps Phase 1 under the threshold,
-with the trade-off stated. If the budget is GAP, set budget_flag to
-"BUDGET UNKNOWN" and do not guess.
+PROMPT NAME: Step3 Match offers
+INPUT: ExtractJson (Text)
+OUTPUT: Text
 
-Return ONLY this JSON, then up to 5 summary bullets:
+Match the customer's goals, scope and constraints in ExtractJson to the
+Contoso Consulting offers listed in OFFER CATALOGUE below. Match on the
+offer's Signals and Problem. Only use offers from the catalogue.
+
+Pricing rules:
+- Use catalogue prices and role hours exactly. Never discount or change them,
+  even if the transcript asks for it.
+- Monthly offers (OFF-07) go in optional_recurring and are NOT added to the
+  one-time total.
+- one_time_total = sum of the matched one-time offer prices. Show the sum in
+  "arithmetic".
+- role_totals: combine the role lines of all matched one-time offers by role
+  (add hours and amounts for the same role). Sort by amount, largest first.
+- Compare one_time_total with the budget and any approval threshold in
+  ExtractJson. budget_flag is one of: WITHIN BUDGET, OVER BUDGET,
+  OVER APPROVAL THRESHOLD, BUDGET UNKNOWN (if budget is GAP). If over, suggest
+  a phasing option that keeps Phase 1 under the limit and state the trade-off.
+
+Return ONLY raw JSON. No code fences, no text before or after.
 {
-  "matched_offers": [{"offer_id": "", "offer_name": "", "price": 0, "rationale": "", "evidence": "",
-                      "roles": [{"role": "", "rate": 0, "hours": 0, "amount": 0}]}],
+  "matched_offers": [{"offer_id": "", "offer_name": "", "price": 0, "duration_weeks": 0, "deliverables": "", "rationale": "", "evidence": ""}],
   "optional_recurring": [{"offer_id": "", "offer_name": "", "monthly_price": 0, "rationale": ""}],
+  "role_totals": [{"role": "", "rate": 0, "hours": 0, "amount": 0}],
   "one_time_total": 0,
   "arithmetic": "",
   "client_budget": "",
+  "budget_flag": "",
   "budget_comparison": "",
-  "budget_flag": "WITHIN BUDGET|OVER BUDGET|OVER APPROVAL THRESHOLD|BUDGET UNKNOWN",
-  "phasing_suggestion": [{"phase": 1, "offer_ids": [], "subtotal": 0, "note": ""}],
+  "phasing_suggestion": "",
   "not_matched_needs": [""]
 }
 
-STEP 1 JSON:
-<paste>
-STEP 2 JSON:
-<paste>
+OFFER CATALOGUE (synthetic demo data, USD):
+OFF-01 | Copilot Readiness Assessment | Fixed fee | $43,000 | 3 weeks
+  Signals: rolling out Copilot; are we ready; Copilot licenses; pilot licenses; oversharing worries; Copilot surfacing sensitive files; permissions sprawl
+  Problem: Organization wants to roll out Microsoft 365 Copilot but does not know whether identity, data access and devices are ready, and fears Copilot will surface overshared content.
+  Deliverables: Tenant readiness report; identity, data and device assessment findings; oversharing risk heatmap; prioritized Copilot rollout roadmap; executive readout
+  Phases: Phase 1: Discover tenant configuration; Phase 2: Assess identity, data and devices; Phase 3: Readiness report and roadmap
+  Exclusions: Remediation of findings; Copilot license procurement; custom agent development; end-user training
+  Microsoft technologies: Microsoft 365 Copilot; Microsoft Entra ID; Microsoft Purview; SharePoint Advanced Management
+  Roles: Engagement Lead 24h x $275 = $6,600; Principal Architect 80h x $250 = $20,000; Security Architect 40h x $240 = $9,600; Project Manager 40h x $170 = $6,800
+OFF-02 | Data Governance & Oversharing Remediation | Fixed fee | $135,400 | 6 weeks
+  Signals: Everyone except external users; sensitive HR sites; finance sites; oversharing; sensitivity labels; DLP; data loss; who can see what; access reviews
+  Problem: Sensitive HR, finance and legal content is overshared across SharePoint and Teams, creating risk before and after Copilot rollout; no labeling or DLP in place.
+  Deliverables: Data risk assessment (DSPM); sensitivity label taxonomy and policies; DLP policy design and deployment; remediation of priority sites; access review process; admin runbook and handover
+  Phases: Phase 1: Data risk assessment; Phase 2: Labeling and DLP design; Phase 3: Site remediation and access reviews; Phase 4: Handover
+  Exclusions: Records management and eDiscovery; third-party DLP tools; on-premises file share remediation; ongoing operations
+  Microsoft technologies: Microsoft Purview (DSPM, Information Protection, DLP); SharePoint Advanced Management
+  Roles: Engagement Lead 40h x $275 = $11,000; Security Architect 120h x $240 = $28,800; Data Governance Consultant 300h x $210 = $63,000; Cloud Engineer 80h x $195 = $15,600; Project Manager 100h x $170 = $17,000
+OFF-03 | Agent 365 Security & Governance Jumpstart | Fixed fee | $78,600 | 4 weeks
+  Signals: agent sprawl; who owns agents; agent permissions; governance for agents; shadow AI; agent inventory; agents accessing sensitive data
+  Problem: Agents are being built across the business with no inventory, ownership, permission model or monitoring, creating security and compliance blind spots.
+  Deliverables: Agent inventory and ownership register; agent governance policy and lifecycle; identity and access model for agents; data protection controls for agents; threat monitoring setup; governance playbook
+  Phases: Phase 1: Discover and inventory agents; Phase 2: Design governance and access model; Phase 3: Configure controls and monitoring; Phase 4: Playbook and handover
+  Exclusions: Building or fixing individual agents; third-party agent platforms; 24x7 security monitoring
+  Microsoft technologies: Agent 365; Microsoft Entra ID; Microsoft Purview; Microsoft Defender
+  Roles: Engagement Lead 24h x $275 = $6,600; Security Architect 160h x $240 = $38,400; Cloud Engineer 120h x $195 = $23,400; Project Manager 60h x $170 = $10,200
+OFF-04 | AI Agent Pilot | Time & materials (capped) | $121,600 | 6 weeks
+  Signals: use case for an agent; build an agent; maintenance knowledge; quality procedures; service knowledge; technicians searching manuals; pilot group; proof of value
+  Problem: Frontline and knowledge workers lose time finding maintenance, quality or service knowledge; the business wants to prove the value of an AI agent with a real pilot group.
+  Deliverables: Use-case definition and success measures; agent solution design; working agent in Copilot Studio or Azure AI Foundry; knowledge source integration; pilot results report; scale-out recommendations
+  Phases: Phase 1: Use-case design; Phase 2: Build in Copilot Studio / Azure AI Foundry; Phase 3: Pilot with users; Phase 4: Evaluate and next steps
+  Exclusions: Production rollout; integrations beyond 3 sources; custom model training; ongoing support (see OFF-07)
+  Microsoft technologies: Microsoft Copilot Studio; Azure AI Foundry; Azure OpenAI; Azure AI Search
+  Roles: Engagement Lead 32h x $275 = $8,800; Principal Architect 80h x $250 = $20,000; AI Engineer 320h x $225 = $72,000; Change Management Consultant 40h x $180 = $7,200; Project Manager 80h x $170 = $13,600
+OFF-05 | Azure Landing Zone & Migration Wave 1 | Time & materials (capped) | $194,200 | 8 weeks
+  Signals: data center exit; lease ending; VMware renewal; VMware costs; servers to migrate; move to Azure; hardware refresh
+  Problem: Customer must exit a data center (lease ending or VMware renewal) and needs a secure, governed Azure foundation plus a first wave of server migrations.
+  Deliverables: Azure landing zone deployment; network and identity design; migration assessment and wave plan; Wave 1 migration of up to 50 servers; monitoring and security baseline; operations handover
+  Phases: Phase 1: Assess and plan; Phase 2: Deploy landing zone; Phase 3: Migrate Wave 1; Phase 4: Stabilize and hand over
+  Exclusions: Application refactoring; database modernization; later migration waves; software licensing costs
+  Microsoft technologies: Azure Landing Zones; Azure Migrate; Azure Monitor; Microsoft Defender for Cloud
+  Roles: Engagement Lead 40h x $275 = $11,000; Principal Architect 200h x $250 = $50,000; Security Architect 80h x $240 = $19,200; Cloud Engineer 480h x $195 = $93,600; Project Manager 120h x $170 = $20,400
+OFF-06 | FinOps Optimization Sprint | Fixed fee | $57,400 | 4 weeks
+  Signals: cloud bill too high; no cost visibility; who is spending what; reservations; savings plans; tagging; budget overruns; rightsizing
+  Problem: Cloud spend is growing faster than expected with no cost visibility, ownership or commitment strategy.
+  Deliverables: Cost baseline and savings opportunity report; tagging and cost allocation standard; reservation and savings plan recommendations; rightsizing quick wins implemented; FinOps dashboards; FinOps operating model
+  Phases: Phase 1: Baseline and visibility; Phase 2: Optimize and quick wins; Phase 3: Governance and FinOps operating model
+  Exclusions: Purchasing reservations on the customer's behalf; multi-cloud cost management; application re-architecture
+  Microsoft technologies: Microsoft Cost Management; Azure Advisor; FinOps toolkit
+  Roles: Engagement Lead 16h x $275 = $4,400; Principal Architect 60h x $250 = $15,000; Cloud Engineer 160h x $195 = $31,200; Project Manager 40h x $170 = $6,800
+OFF-07 | Managed AI Operations | Monthly subscription | $17,440 per month | 4 weeks
+  Signals: who will run it after go-live; support for agents; ongoing operations; agent monitoring; who fixes it when it breaks; continuous improvement
+  Problem: After go-live nobody owns the day-to-day running, monitoring and improvement of agents and AI solutions.
+  Deliverables: Monthly health and usage report; agent monitoring and incident response (business hours); knowledge source refresh; minor enhancements backlog; quarterly service review
+  Phases: Ongoing: Onboard; Monitor and support; Improve; Quarterly service review
+  Exclusions: 24x7 support; new agent builds; Microsoft license costs
+  Microsoft technologies: Azure Monitor; Copilot Studio analytics; Microsoft Purview audit
+  Roles: Engagement Lead 8h x $275 = $2,200; AI Engineer 40h x $225 = $9,000; Cloud Engineer 32h x $195 = $6,240
+OFF-08 | Adoption & Change Management | Fixed fee | $54,200 | 6 weeks
+  Signals: user training; champions; adoption worries; low usage; unions; works council; employee concerns; change management
+  Problem: New AI tools are rolled out but usage stalls because users are not trained, champions are missing and employee bodies (unions, works councils) have concerns.
+  Deliverables: Adoption strategy and stakeholder map; champions program; role-based training sessions; communications plan and materials; works council and union briefing pack; adoption measurement dashboard
+  Phases: Phase 1: Assess readiness and stakeholders; Phase 2: Build champions and communications; Phase 3: Train and launch; Phase 4: Measure and sustain
+  Exclusions: Translation; in-person training travel; technical deployment of Copilot
+  Microsoft technologies: Microsoft 365 Copilot; Microsoft Viva; Copilot Analytics
+  Roles: Engagement Lead 16h x $275 = $4,400; AI Engineer 16h x $225 = $3,600; Change Management Consultant 200h x $180 = $36,000; Project Manager 60h x $170 = $10,200
+
+ExtractJson:
+[insert input ExtractJson here]

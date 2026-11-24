@@ -1,4 +1,6 @@
 # Workshop-to-SOW Agent
+
+> **Original proposal (October 2026).** This is the concept submitted to the Hack to Build. The proof of concept as actually built is described in the [README](../README.md) and [build guide](build-guide.md).
 Concept, business value, technical design, and future roadmap
 *Prepared on October 19, 2026 by Jerry Rhoads, Principal Partner Solution Architect*
 
