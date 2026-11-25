@@ -10,32 +10,21 @@
 
 **Jerry Rhoads** · Principal Partner Solution Architect
 
-[The problem](#the-problem) · [How it works](#how-it-works) · [Results](#results) · [What sets it apart](#what-sets-it-apart) · [Build it](#build-it)
+[Problem statement](#problem-statement) · [How it works](#how-it-works) · [Results](#results) · [Key differentiators](#key-differentiators) · [Build it](#build-it)
 
 </div>
 
 ---
 
-## The problem
+## Problem statement
 
-Our partners run a steady stream of workshops: envisioning sessions, Copilot readiness, Agent 365 security, data governance, Azure migration and FinOps. Many are Microsoft-funded, and customers value them.
+Our partners run a steady stream of customer workshops, including envisioning sessions, Copilot readiness, Agent 365 security, data governance, Azure migration and FinOps. Customers value these workshops, but too few of them turn into signed work.
 
-> **But a workshop is not a deal.** Momentum is lost in what happens next.
+The gap is the step between the workshop and the proposal. Today the architect writes the Statement of Work by hand from notes, which takes days while the next workshop is already on the calendar. Key inputs such as budget, decision maker, success criteria and timeline were often never asked, so a second meeting is needed before a proposal can be written. Pricing depends on who writes the SOW, and two architects can price the same need very differently. Meanwhile, the customer's interest is highest when the workshop ends and fades with every day that passes without a proposal.
 
-| | |
-|---|---|
-| **The SOW is written by hand** | The architect works from notes, it takes days, and the next workshop is already on the calendar. |
-| **Key inputs are missing** | Budget, decision maker, success criteria and timeline often never came up, so a second meeting is needed. |
-| **Pricing is inconsistent** | Two architects can price the same need very differently. |
-| **Interest fades** | The customer is most engaged when the workshop ends, and every day without a proposal costs some of that. |
+The information needed to close this gap already exists. During the workshop, the customer describes what they need, in their own words, on a recorded call. That transcript holds almost everything a first-draft SOW requires.
 
-Meanwhile, the customer has just described what they need, in their own words, on a recorded call. That transcript holds almost everything a first-draft SOW requires.
-
-<div align="center">
-
-**The goal: every workshop ends with a draft SOW, or an unsolicited proposal, the same day.**
-
-</div>
+> **Every workshop should end with a draft SOW, or an unsolicited proposal, the same day.**
 
 ---
 
@@ -65,8 +54,8 @@ flowchart LR
 
 | Answer | What happens |
 |:---:|---|
-| ✅ **"Yes, create it"** | The agent saves a Word SOW to **OneDrive** and creates an **Outlook** draft to the architect with the SOW attached. |
-| ⛔ **"No, stop here"** | The agent stops. Nothing is saved or drafted. |
+| ✅&nbsp;**"Yes,&nbsp;create&nbsp;it"** | The agent saves a Word SOW to **OneDrive** and creates an **Outlook** draft to the architect with the SOW attached. |
+| ⛔&nbsp;**"No,&nbsp;stop&nbsp;here"** | The agent stops. Nothing is saved or drafted. |
 
 > [!IMPORTANT]
 > The agent never sends anything to the customer. The architect reviews and sends.
@@ -89,7 +78,7 @@ Proof-of-concept results from November 24, 2026, using the synthetic transcripts
 
 ---
 
-## What sets it apart
+## Key differentiators
 
 | | |
 |---|---|
